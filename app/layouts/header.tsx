@@ -5,7 +5,7 @@ import terminal from "~/assets/terminal.svg";
 
 export default function Header() {
   return(
-    <header className="relative h-12 px-10 flex items-end justify-between">
+    <header className="relative h-14 px-10 pb-2  flex items-end justify-between">
       <div className="flex gap-40">
         {socials.map((social, index)=> {
           return(

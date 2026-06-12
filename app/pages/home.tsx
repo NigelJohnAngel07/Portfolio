@@ -2,10 +2,10 @@ import {useState} from "react";
 import type { Route } from "./+types/home";
 
 import Header from "~/layouts/header";
-import folder from "~/assets/folder.svg"
-import folderOpen from "~/assets/folder_open.svg"
-import arrow from "~/assets/arrow.svg"
-import FileManager from "~/layouts/fileManager";
+import folder from "~/assets/folder.svg";
+import folderOpen from "~/assets/folder_open.svg";
+import arrow from "~/assets/arrow.svg";
+import FileExplorer from "~/layouts/fileExplorer";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -34,10 +34,10 @@ export default function Home() {
             rel="noopener noreferrer" 
             className="px-12 py-6 rounded-full bg-foreground text-background text-center text-sm hover:opacity-80"
           >View CV</a>
-          <p className="text-sm font-sans">Only wimps use tape backup: real men just upload their important stuff on ftp, and let the rest of the world mirror it</p>
+          <p className="text-sm font-sans">I use Arch btw</p>
         </div>
         {isOpen && (
-          <FileManager />
+          <FileExplorer />
         )}
           <div className=" absolute bottom-0 left-0 ml-10 flex items-center gap-3">
             <button className="hover:opacity-80" onClick={()=>{setIsOpen(!isOpen)}}>

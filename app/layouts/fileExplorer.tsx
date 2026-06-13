@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { navigation, type FileItem } from "~/data/fileExplorer/navigation";
 
+import AboutView from "~/components/views/AboutView";
+
 export default function FileExplorer() {
   // Track which sidebar item is currently active
   const [activeIndex, setActiveIndex] = useState<number>(0);
@@ -19,6 +21,12 @@ export default function FileExplorer() {
   
   // Get the currently selected sidebar item object
   const currentItem = sidebarItems[activeIndex];
+
+  const viewMap: Record<string, React.ReactNode> = {
+    ABOUT_VIEW: <AboutView />,
+    // RECLAIM_VIEW: <ReClaimView />,
+    // RESUME_VIEW: <ResumeView />, // Ready to plug in later!
+  };
 
   // Helper function to dynamically group the Tech Stack items by their category field
   const groupTechStack = (items: FileItem[]) => {
@@ -111,13 +119,20 @@ export default function FileExplorer() {
               <span className="text-xs font-sans font-semibold text-muted-foreground">{openedFile.name}</span>
             </div>
             
-            <div className="flex-1 w-full bg-muted/20 rounded flex flex-col items-center justify-center border border-border border-dashed p-8">
-              <p className="text-sm font-sans text-muted-foreground mb-1">
-                Displaying Target Component Layout View for:
-              </p>
-              <p className="font-mono text-xs font-bold bg-muted px-2 py-1 rounded border border-border">
-                {openedFile.content}
-              </p>
+            {/* FIXED VIEW REPLACEMENT ROUTER */}
+            <div className="flex-1 w-full overflow-y-auto rounded">
+              {openedFile.content && viewMap[openedFile.content] ? (
+                viewMap[openedFile.content]
+              ) : (
+                <div className="flex-1 h-full w-full bg-muted/20 rounded flex flex-col items-center justify-center border border-border border-dashed p-8">
+                  <p className="text-sm font-sans text-muted-foreground mb-1">
+                    Displaying Target Component Layout View for:
+                  </p>
+                  <p className="font-mono text-xs font-bold bg-muted px-2 py-1 rounded border border-border">
+                    {openedFile.content}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         ) : currentItem?.type === "folder" ? (

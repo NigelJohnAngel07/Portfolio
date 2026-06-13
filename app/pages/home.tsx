@@ -6,6 +6,7 @@ import folder from "~/assets/folder.svg";
 import folderOpen from "~/assets/folder_open.svg";
 import arrow from "~/assets/arrow.svg";
 import FileExplorer from "~/layouts/fileExplorer";
+import { useTypewriter } from "~/hooks/useTypewriter";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -15,6 +16,11 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
+
+  const words: string[] = ["Software", "Student", "Full-stack"];
+  
+  // Custom hook usage with a 5000ms (5 seconds) delay
+  const { currentText, isWaiting } = useTypewriter(words, 120, 120, 5000);
 
   const [isOpen, setIsOpen] = useState(false);  
   const [isBrainrot, setIsBrainrot] = useState(false);
@@ -26,7 +32,18 @@ export default function Home() {
         <div className="flex flex-col mx-40 mt-30">
           <h2 className="ml-2 text-6xl">I am</h2>
           <h1 className="text-[133.5px] leading-40 flex justify-center">Nigel John Angel</h1>
-          <h2 className="text-3xl flex justify-end leading-25">Software Developer</h2>
+          <div className="flex justify-end">
+            <h2 className="text-3xl leading-25 ">
+              <span 
+                className={`overflow-hidden border-r-2 whitespace-nowrap transition-all ${
+                  isWaiting ? 'cursor-blink' : 'border-white'
+                }`}
+              >
+                {currentText || "\u00A0"}
+              </span> 
+              &nbsp; Developer
+            </h2>
+          </div>
         </div>
         <div className="flex flex-col items-center gap-6">
           <a href="/resume.pdf" 

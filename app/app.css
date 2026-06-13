@@ -103,3 +103,14 @@
     @apply font-heading;
   }
 }
+
+@layer utilities {
+  @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: white; }
+  }
+
+  .cursor-blink {
+    animation: blink-caret 0.75s step-end infinite;
+  }
+}

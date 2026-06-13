@@ -96,7 +96,7 @@ export default function FileExplorer() {
       </div>
 
       {/* -- RIGHT SECTION (MAIN CONTENT AREA) -- */}
-      <div className="flex-1 h-full flex flex-col overflow-y-auto p-6 bg-background">
+      <div className="flex-1 h-full flex flex-col overflow-y-auto p-6">
         
         {openedFile ? (
           /* -- FILE VIEWER WORKSPACE -- */

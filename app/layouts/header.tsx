@@ -9,7 +9,7 @@ export default function Header() {
       <div className="flex gap-40">
         {socials.map((social, index)=> {
           return(
-            <div className="relative flex items-center gap-2">
+            <div key={index} className="relative flex items-center gap-2">
               <img src={social.icon} className="h-8"></img>
               <a href={social.link} target="_blank" className="font-sans text-xs">{social.label}</a>
             </div>

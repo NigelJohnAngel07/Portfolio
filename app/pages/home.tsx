@@ -16,7 +16,7 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
 
-  const [isOpen, setIsOpen] = useState(true);  
+  const [isOpen, setIsOpen] = useState(false);  
   const [isBrainrot, setIsBrainrot] = useState(false);
 
   return(

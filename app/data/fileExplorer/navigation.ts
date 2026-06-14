@@ -5,7 +5,7 @@ import folderIcon from "/assets/folderIcon.svg";
 import documents from "/assets/documents.svg";
 import imageIcon from "/assets/imageIcon.svg" 
 
-export type FileType = 'folder' | 'pdf' | 'tech' | 'project';
+export type FileType = 'Folder' | 'PDF' | 'tech' | 'project';
 
 export interface FileItem {
   name: string;
@@ -22,20 +22,20 @@ export interface FileItem {
 export const navigation: FileItem[] = [
   {
     name: "Home",
-    type: "folder",
+    type: "Folder",
     icon: home,
     size: "6 Items",
     children: [
       {
         name: "About",
-        type: "folder",
+        type: "Folder",
         icon: info,
         size: "1 item",
-        children: [{ name: "about.pdf", type: "pdf", icon: "/assets/pdf.svg", size: "2 MB", content: "ABOUT_VIEW" }]
+        children: [{ name: "about.pdf", type: "PDF", icon: "/assets/pdf.svg", size: "2 MB", content: "ABOUT_VIEW" }]
       },
       {
         name: "Tech Stack",
-        type: "folder",
+        type: "Folder",
         icon: stack,
         size: "18 items",
         children: [
@@ -68,14 +68,14 @@ export const navigation: FileItem[] = [
       },
       {
         name: "Projects",
-        type: "folder",
+        type: "Folder",
         icon: folderIcon,
         size: "1 item",
         children: [{ name: "ReClaim.pdf", type: "project", icon: "/assets/pdf.svg", size: "5 MB", content: "RECLAIM_VIEW", Date: "2025", Description: "Sustainability app" }]
       },
-      { name: "Certification", type: "folder", icon: documents, size: "0 Item", children: [] },
-      { name: "Photos", type: "folder", icon: imageIcon, size: "0 Item", children: [] },
-      { name: "resume.pdf", type: "pdf", icon: "/assets/pdf.svg", size: "1.2 MB", content: "/resume.pdf", Description: "Sustainability app" }
+      { name: "Certification", type: "Folder", icon: documents, size: "0 Item", children: [] },
+      { name: "Photos", type: "Folder", icon: imageIcon, size: "0 Item", children: [] },
+      { name: "resume.pdf", type: "PDF", icon: "/assets/pdf.svg", size: "1.2 MB", content: "/resume.pdf", Description: "Sustainability app" }
     ]
   }
 ];

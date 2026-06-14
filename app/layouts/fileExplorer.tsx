@@ -10,11 +10,14 @@ export default function FileExplorer() {
   // Track if a specific file (like a PDF) is opened via double-click
   const [openedFile, setOpenedFile] = useState<FileItem | null>(null);
 
+  // Track which specific file/folder is single-clicked for properties/metadatas
+  const [selectedItem, setSelectedItem] = useState<FileItem | null>(null);
+
   // 1. Get the root Home folder
   const rootHome = navigation[0];
   
   // 2. Filter Home's children to get ONLY folders (About, Tech Stack, Projects, Certification, Photos)
-  const homeFoldersOnly = rootHome.children?.filter(item => item.type === "folder") || [];
+  const homeFoldersOnly = rootHome.children?.filter(item => item.type === "Folder") || [];
   
   // 3. Combine them so "Home" is first, followed by all the sub-folders in the Places sidebar
   const sidebarItems = [rootHome, ...homeFoldersOnly];
@@ -56,6 +59,7 @@ export default function FileExplorer() {
                   onClick={() => {
                     setActiveIndex(index);
                     setOpenedFile(null); // Close any open file view when switching main sections
+                    setSelectedItem(null);
                   }}
                   className={`flex w-full items-center gap-3 p-2 px-3 rounded transition-colors text-left ${
                     isActive
@@ -72,34 +76,84 @@ export default function FileExplorer() {
         </div>
 
         {/* -- METADATA SECTION -- */}
-        <div className="mx-4 mb-2 p-3 border border-border/60 bg-muted/30 rounded text-xs font-sans space-y-2">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground border-b border-border/40 pb-1">Properties</p>
-          
-          <div>
-            <p className="text-muted-foreground font-semibold">Name:</p>
-            <p className="font-medium text-foreground">{openedFile ? openedFile.name : currentItem?.name}</p>
-          </div>
+        <div className="flex-1 text-xs font-sans flex flex-col items-center justify-center p-4 bg-background/20 rounded m-2">
+          {(() => {
+            // Priority: Single-clicked item > Double-clicked open file > Active sidebar folder
+            const activeMetadata = selectedItem || openedFile || currentItem;
 
-          <div>
-            <p className="text-muted-foreground font-semibold">Size:</p>
-            <p className="font-medium text-foreground">{openedFile ? openedFile.size : currentItem?.size}</p>
-          </div>
-          
-          {(openedFile?.Date || currentItem?.Date) && (
-            <div>
-              <p className="text-muted-foreground font-semibold">Date Created:</p>
-              <p className="font-medium text-foreground">{openedFile ? openedFile.Date : currentItem?.Date}</p>
-            </div>
-          )}
+            if (!activeMetadata) return <p className="text-muted-foreground">No item selected</p>;
 
-          {(openedFile?.Description || currentItem?.Description) && (
-            <div>
-              <p className="text-muted-foreground font-semibold">Description:</p>
-              <p className="font-medium text-foreground text-pretty">
-                {openedFile ? openedFile.Description : currentItem?.Description}
-              </p>
-            </div>
-          )}
+            // 1. Determine the image explicitly by file type
+            let displayImage = "";
+
+            if (activeMetadata.type === "Folder") {
+              displayImage = "/assets/folder.svg";
+            } else if (activeMetadata.type === "PDF" || activeMetadata.type === "project") {
+              displayImage = "/assets/pdf.svg";
+            } else if (activeMetadata.type === "tech") {
+              displayImage = activeMetadata.icon;
+            } else {
+              displayImage = activeMetadata.icon;
+            }
+
+            return (
+              <div className="flex flex-col items-center justify-center w-full space-y-3">
+                {/* Image */}
+                <img 
+                  src={displayImage} 
+                  className="h-20 w-20 object-contain"
+                  alt={activeMetadata.name} 
+                />
+
+                {/* Name Header */}
+                <p className="font-semibold text-center text-sm text-foreground truncate w-full px-2">
+                  {activeMetadata.name}
+                </p>
+
+                {/* Metadata Fields Wrapper */}
+                <div className="w-full space-y-2 pt-3 text-[11px]">
+                  
+                  {/* Dynamic Type/Category Row */}
+                  <div className="flex items-center gap-2">
+                    <span className="w-20 text-right text-muted-foreground font-medium">
+                      {activeMetadata.type === "tech" ? "Category:" : "Type:"}
+                    </span>
+                    <span className="flex-1 text-left text-foreground capitalize truncate">
+                      {activeMetadata.type === "tech" 
+                        ? (activeMetadata.category || "Skill") 
+                        : activeMetadata.type}
+                    </span>
+                  </div>
+
+                  {/* Size Row */}
+                  {activeMetadata.size && (
+                    <div className="flex items-center gap-2">
+                      <span className="w-20 text-right text-muted-foreground font-medium">Size:</span>
+                      <span className="flex-1 text-left text-foreground truncate">{activeMetadata.size}</span>
+                    </div>
+                  )}
+
+                  {/* Date Row */}
+                  {activeMetadata.Date && (
+                    <div className="flex items-center gap-2">
+                      <span className="w-20 text-right text-muted-foreground font-medium">Modified:</span>
+                      <span className="flex-1 text-left text-foreground truncate">{activeMetadata.Date}</span>
+                    </div>
+                  )}
+
+                  {/* Description Block */}
+                  {activeMetadata.Description && (
+                    <div className="flex gap-2 pt-1">
+                      <span className="w-20 text-right text-muted-foreground font-medium shrink-0">Description:</span>
+                      <p className="flex-1 text-left text-foreground leading-relaxed line-clamp-3">
+                        {activeMetadata.Description}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })()}
         </div>
       </div>
 
@@ -135,7 +189,7 @@ export default function FileExplorer() {
               )}
             </div>
           </div>
-        ) : currentItem?.type === "folder" ? (
+        ) : currentItem?.type === "Folder" ? (
           /* -- STANDARD FOLDER GRID VIEW -- */
           <>
             <div className="mb-4 border-b border-border/60 pb-2">
@@ -151,15 +205,31 @@ export default function FileExplorer() {
                       {category}
                     </h3>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-                      {items.map((tech) => (
-                        <div 
-                          key={tech.name} 
-                          className="flex items-center gap-2.5 p-2 rounded border border-border/40 bg-muted/20 hover:bg-muted/40 transition-colors"
-                        >
-                          <img src={tech.icon} className="h-5 w-5 object-contain" alt={tech.name} />
-                          <span className="text-[11px] font-sans font-medium truncate">{tech.name}</span>
-                        </div>
-                      ))}
+                      {items.map((tech) => {
+                        // Check if this item is currently selected to apply a highlight
+                        const isSelected = selectedItem?.name === tech.name;
+
+                        return (
+                          <button 
+                            key={tech.name} 
+                            onClick={() => setSelectedItem(tech)} // <--- SINGLE CLICK: Updates metadata panel state
+                            className={`flex items-center gap-2.5 p-2 rounded border text-left transition-all group focus:outline-none ${
+                              isSelected
+                                ? "border-primary bg-muted/60 ring-1 ring-primary/30" // Selected styling
+                                : "border-border/40 bg-muted/20 hover:bg-muted/40"    // Default styling
+                            }`}
+                          >
+                            <img 
+                              src={tech.icon} 
+                              className="h-5 w-5 object-contain group-hover:scale-105 transition-transform" 
+                              alt={tech.name} 
+                            />
+                            <span className="text-[11px] font-sans font-medium truncate w-full">
+                              {tech.name}
+                            </span>
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 ))}
@@ -168,14 +238,12 @@ export default function FileExplorer() {
               /* Standard Folder View Grid layout (About, Projects, Home contents, etc.) */
               <div className="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-6">
                 {currentItem.children?.map((file) => {
-                  const isFolder = file.type === "folder";
+                  const isFolder = file.type === "Folder";
 
                   return (
                     <button
                       key={file.name}
-                      onClick={() => {
-                        // Double-click is for launching views, single-click highlights properties
-                      }}
+                      onClick={() => setSelectedItem(file)}
                       onDoubleClick={() => {
                         if (isFolder) {
                           // Find index of this folder inside our sidebar array to navigate into it

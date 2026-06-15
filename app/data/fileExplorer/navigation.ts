@@ -75,7 +75,7 @@ export const navigation: FileItem[] = [
       },
       { name: "Certification", type: "Folder", icon: documents, size: "0 Item", children: [] },
       { name: "Photos", type: "Folder", icon: imageIcon, size: "0 Item", children: [] },
-      { name: "resume.pdf", type: "PDF", icon: "/assets/pdf.svg", size: "1.2 MB", content: "/resume.pdf", Description: "Sustainability app" }
+      { name: "resume.pdf", type: "PDF", icon: "/assets/pdf.svg", size: "1.2 MB", content: "RESUME_VIEW", Description: "Sustainability app" }
     ]
   }
 ];

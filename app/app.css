@@ -8,7 +8,6 @@
 
 @import "@fontsource-variable/geist";
 
-@custom-variant dark (&:is(.dark *));
 
 @theme {
   --font-heading: "Audiowide", sans-serif;
@@ -112,5 +111,34 @@
 
   .cursor-blink {
     animation: blink-caret 0.75s step-end infinite;
+  }
+
+  @keyframes shine {
+    0%   { left: -50%; }
+    30%  { left: 120%; }
+    100% { left: 120%; }
+  }
+
+  .btn-shine {
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-shine::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 40%;
+    height: 200%;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(255, 255, 255, 0.15) 30%,
+      rgba(255, 255, 255, 0.6) 50%,
+      rgba(255, 255, 255, 0.15) 70%,
+      transparent 100%
+    );
+    transform: skewX(-20deg);
+    animation: shine 6s ease-in-out infinite 2s;
   }
 }

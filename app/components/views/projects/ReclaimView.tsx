@@ -67,6 +67,20 @@ export default function ReclaimView() {
         ))}
       </div>
 
+      {/* — DEMO ANCHOR LINK — */}
+      <a
+        href="https://reclaim-upmin.site"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="btn-shine inline-flex items-center gap-3 self-start border border-[#D7D9CE]/20 rounded px-5 py-2.5 text-xs tracking-widest uppercase font-heading text-[#D7D9CE]/70 hover:text-[#D7D9CE] hover:border-[#D7D9CE]/40 transition-colors duration-200"
+      >
+        <span className="relative flex h-1.5 w-1.5">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D7D9CE]/40 opacity-75" />
+          <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#D7D9CE]/60" />
+        </span>
+        View Demo
+      </a>
+
       {/* — DIVIDER — */}
       <div className="flex items-center gap-4">
         <span className="h-px flex-1 bg-[#D7D9CE]/10" />

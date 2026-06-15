@@ -21,7 +21,7 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   const words: string[] = ["Software", "Student", "Full-stack"];
-  const { currentText, isWaiting } = useTypewriter(words, 120, 120, 5000);
+  const { currentText, isWaiting } = useTypewriter(words, 120, 60, 5000);
 
   const [isOpen, setIsOpen] = useState(false);
   const [isBrainrot, setIsBrainrot] = useState(false);
@@ -66,7 +66,16 @@ export default function Home() {
         }}
       >
         <Header />
-        <main className="relative w-full flex-1 overflow-hidden flex flex-col justify-center items-center pb-16">
+        <main
+          className="relative w-full flex-1 overflow-hidden flex flex-col justify-center items-center pb-16"
+          onClick={(e) => {
+            if (!isOpen) return;
+            const target = e.target as HTMLElement;
+            // Don't close if clicking inside the file explorer or on a button/link
+            if (target.closest("[data-no-custom-cursor]") || target.closest("button, a")) return;
+            setIsOpen(false);
+          }}
+        >
           <div className="flex flex-col w-full max-w-400 px-6 sm:px-12 lg:px-24">
             <h2 className="text-3xl md:text-5xl lg:text-6xl text-left w-full">I am</h2>
             <h1 className="text-[12vw] xl:text-[140px] leading-normal md:leading-tight w-full flex justify-between whitespace-nowrap">
@@ -91,13 +100,13 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 lg:gap-6 w-full sm:w-auto">
               <button
                 onClick={() => setIsContactOpen(true)}
-                className="px-8 lg:px-12 py-4 rounded-full w-full sm:w-auto bg-foreground text-background text-center text-sm font-bold hover:opacity-80 transition-opacity focus:outline-none"
+                className="px-8 lg:px-12 py-4 rounded-full w-full sm:w-auto bg-foreground text-background text-center text-sm font-medium hover:opacity-80 transition-opacity focus:outline-none"
               >
                 Get in Touch
               </button>
               <button
                 onClick={() => setIsResumeOpen(true)}
-                className="px-8 lg:px-12 py-4 rounded-full w-full sm:w-auto border border-foreground text-foreground text-center text-sm font-bold hover:bg-foreground hover:text-background transition-colors"
+                className="px-8 lg:px-12 py-4 rounded-full w-full sm:w-auto border border-foreground text-foreground text-center text-sm font-medium hover:opacity-70 transition-colors"
               >
                 View CV
               </button>
@@ -107,17 +116,28 @@ export default function Home() {
             </p>
           </div>
           {isOpen && <FileExplorer />}
-          <div className="absolute bottom-0 left-0 ml-10 flex items-center gap-3">
-            <button className="hover:opacity-80" onClick={() => setIsOpen(!isOpen)}>
+          {/* File Explorer trigger — icon + label as one cursor target */}
+          <div className="absolute bottom-0 left-0 ml-6 mb-3">
+            <button
+              data-cursor
+              onClick={() => setIsOpen(!isOpen)}
+              className="flex items-center gap-2 px-2 py-1 hover:opacity-80 transition-opacity focus:outline-none"
+            >
               <img src={isOpen ? folderOpen : folder} />
+              <p>File Explorer</p>
             </button>
-            <p>File Explorer</p>
           </div>
-          <div className={`absolute bottom-0 right-0 flex items-end gap-3 ${isBrainrot ? "" : "mr-10"}`}>
-            <div className="flex items-center gap-3">
-              <p>Brainrot Corner</p>
-              <button className="hover:opacity-80" onClick={() => setIsBrainrot(!isBrainrot)}>
-                <img src={arrow} className={isBrainrot ? "rotate-180" : ""} />
+ 
+          {/* Brainrot Corner — label + arrow as one cursor target, video separate */}
+          <div className={`absolute bottom-0 right-0 flex items-end gap-3 ${isBrainrot ? "" : "mr-6"}`}>
+            <div className="mb-3">
+              <button
+                data-cursor
+                onClick={() => setIsBrainrot(!isBrainrot)}
+                className="flex items-center gap-2 px-2 py-1 hover:opacity-80 transition-opacity focus:outline-none"
+              >
+                <p>Brainrot Corner</p>
+                <img src={arrow} className={`transition-transform duration-300 ${isBrainrot ? "rotate-180" : ""}`} />
               </button>
             </div>
             {isBrainrot && (

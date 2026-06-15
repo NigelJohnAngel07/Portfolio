@@ -5,19 +5,25 @@ import terminal from "~/assets/terminal.svg";
 
 export default function Header() {
   return(
-    <header className="relative h-14 px-10 pb-2  flex items-end justify-between">
+    <header className="relative h-14 px-10 pb-2 flex items-end justify-between">
       <div className="flex gap-40">
-        {socials.map((social, index)=> {
+        {socials.map((social, index) => {
           return(
-            <div key={index} className="relative flex items-center gap-2">
-              <img src={social.icon} className="h-8"></img>
-              <a href={social.link} target="_blank" className="font-sans text-xs">{social.label}</a>
-            </div>
+            <a
+              key={index}
+              href={social.link}
+              target="_blank"
+              data-cursor
+              className="relative flex items-center gap-2 px-2 py-1"
+            >
+              <img src={social.icon} className="h-8" />
+              <span className="font-sans text-xs">{social.label}</span>
+            </a>
           );
         })}
       </div>
       <div className="flex items-center gap-4">
-        <img src={terminal} className="h-8"></img>
+        <img src={terminal} className="h-8" />
         <Switch 
           className="
             data-[size=default]:h-6 
@@ -29,4 +35,4 @@ export default function Header() {
       </div>
     </header>
   );
-} 
+}

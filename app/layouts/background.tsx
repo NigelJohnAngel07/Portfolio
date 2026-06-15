@@ -14,7 +14,7 @@ const FIELD_HEIGHT = 2000;
 const NUM_STARS = 180;
 const CAMERA_SPEED = 0.12;
 const MOUSE_RADIUS = 100;  // px — only stars within this distance react
-const MOUSE_PUSH = 22;     // max displacement
+const MOUSE_PUSH = 2;     // max displacement
 
 export default function StarfieldBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);

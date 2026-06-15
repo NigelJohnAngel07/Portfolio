@@ -94,6 +94,11 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    cursor: none !important;
+  }
+  [data-no-custom-cursor],
+  [data-no-custom-cursor] * {
+    cursor: auto !important;
   }
   body {
     @apply bg-background text-foreground;
@@ -107,6 +112,17 @@
   @keyframes blink-caret {
     from, to { border-color: transparent }
     50% { border-color: white; }
+  }
+
+  @keyframes cursor-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  @keyframes cursor-snap {
+    0%   { transform: rotate(0deg) scale(0.85); }
+    50%  { transform: rotate(0deg) scale(1.08); }
+    100% { transform: rotate(0deg) scale(1); }
   }
 
   .cursor-blink {

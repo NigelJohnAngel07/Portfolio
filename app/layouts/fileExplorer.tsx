@@ -44,7 +44,7 @@ export default function FileExplorer() {
   };
 
   return (
-    <div className="absolute top-0 inset-x-40 inset-y-20 z-10 border-2 border-border bg-background/99 flex overflow-hidden select-none text-foreground rounded-sm shadow-2xl animate-in slide-in-from-bottom-8 fade-in zoom-in-95 duration-300 ease-out">
+    <div data-no-custom-cursor className="absolute top-0 inset-x-40 inset-y-20 z-10 border-2 border-border bg-background/99 flex overflow-hidden select-none text-foreground rounded-sm shadow-2xl animate-in slide-in-from-bottom-8 fade-in zoom-in-95 duration-300 ease-out">
       
       {/* -- LEFT SECTION (SIDEBAR) -- */}
       <div className="w-[30vh] h-full py-4 border-r-2 border-border flex flex-col justify-between bg-background/50">

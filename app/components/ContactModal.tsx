@@ -132,7 +132,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
             <button 
               type="submit"
-              className="w-full bg-foreground text-background font-bold rounded-xl py-3 mt-2 hover:opacity-90 transition-opacity"
+              className="w-full bg-foreground text-background rounded-xl py-3 mt-2 hover:opacity-90 transition-opacity"
             >
               Send Message
             </button>

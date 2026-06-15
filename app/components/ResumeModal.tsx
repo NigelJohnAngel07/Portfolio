@@ -44,7 +44,7 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
         <div className="flex-1 w-full overflow-y-auto p-2 sm:p-4 bg-white/5">
           <iframe 
             src="/resume.pdf" 
-            className="w-full h-full min-h-[800px] rounded-xl border border-white/10 bg-white"
+            className="w-full h-full min-h-200 rounded-xl border border-white/10 bg-white"
             title="Resume PDF Viewer"
           />
         </div>

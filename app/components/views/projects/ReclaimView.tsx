@@ -69,7 +69,7 @@ export default function ReclaimView() {
 
       {/* — DEMO ANCHOR LINK — */}
       <a
-        href="https://reclaim-upmin.site"
+        href="https://reclaim-demo-xi.vercel.app"
         target="_blank"
         rel="noopener noreferrer"
         className="btn-shine inline-flex items-center gap-3 self-start border border-[#D7D9CE]/20 rounded px-5 py-2.5 text-xs tracking-widest uppercase font-heading text-[#D7D9CE]/70 hover:text-[#D7D9CE] hover:border-[#D7D9CE]/40 transition-colors duration-200"

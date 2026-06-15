@@ -4,6 +4,7 @@ import backArrow from "~/assets/back-arrow.svg"
 
 import AboutView from "~/components/views/AboutView";
 import ResumeView from "~/components/views/ResumeView";
+import ReclaimView from "~/components/views/projects/ReclaimView";
 
 export default function FileExplorer() {
   // Track which sidebar item is currently active
@@ -29,7 +30,7 @@ export default function FileExplorer() {
 
   const viewMap: Record<string, React.ReactNode> = {
     ABOUT_VIEW: <AboutView />,
-    // RECLAIM_VIEW: <ReClaimView />,
+    RECLAIM_VIEW: <ReclaimView />,
     RESUME_VIEW: <ResumeView />, // Ready to plug in later!
   };
 

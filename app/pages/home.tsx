@@ -112,7 +112,7 @@ export default function Home() {
               </button>
             </div>
             <p className="text-xs sm:text-sm font-sans text-center max-w-lg opacity-80">
-              For more information, visit my file explorer at the bottom-left
+              To learn more, check the file explorer at the bottom-left.
             </p>
           </div>
           {isOpen && <FileExplorer />}

@@ -1,89 +1,29 @@
-import { useRef, useState, useCallback } from "react";
+import { useWarpEffect } from "~/hooks/useWarpEffect";
 
-interface CharState {
-  dx: number;
-  dy: number;
-  scale: number;
-  rotation: number;
+interface WarpNameProps {
+  children: string;
 }
 
-const INFLUENCE_RADIUS = 120;
-const MAX_PUSH = 28;
-const MAX_ROTATE = 18;
-
-export function useWarpEffect(text: string) {
-  const charRefs = useRef<(HTMLSpanElement | null)[]>([]);
-  const animFrameRef = useRef<number | null>(null);
-  const [charStates, setCharStates] = useState<CharState[]>(
-    () => text.split("").map(() => ({ dx: 0, dy: 0, scale: 1, rotation: 0 }))
-  );
-
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
-
-    animFrameRef.current = requestAnimationFrame(() => {
-      const mx = e.clientX;
-      const my = e.clientY;
-
-      const newStates = charRefs.current.map((el) => {
-        if (!el) return { dx: 0, dy: 0, scale: 1, rotation: 0 };
-
-        const rect = el.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-
-        const distX = mx - cx;
-        const distY = my - cy;
-        const dist = Math.sqrt(distX * distX + distY * distY);
-
-        if (dist > INFLUENCE_RADIUS) {
-          return { dx: 0, dy: 0, scale: 1, rotation: 0 };
-        }
-
-        const force = 1 - dist / INFLUENCE_RADIUS;
-        const angle = Math.atan2(distY, distX);
-
-        return {
-          dx: -Math.cos(angle) * force * MAX_PUSH,
-          dy: -Math.sin(angle) * force * MAX_PUSH,
-          scale: 1 + force * 0.25,
-          rotation: Math.sin(angle) * force * MAX_ROTATE,
-        };
-      });
-
-      setCharStates(newStates);
-    });
-  }, []);
-
-  const handleMouseLeave = useCallback(() => {
-    if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
-    setCharStates(text.split("").map(() => ({ dx: 0, dy: 0, scale: 1, rotation: 0 })));
-  }, [text]);
-
-  return { charRefs, charStates, handleMouseMove, handleMouseLeave };
-}
-
-export default function WarpName({ children }: { children: string }) {
+export default function WarpName({ children }: WarpNameProps) {
   const { charRefs, charStates, handleMouseMove, handleMouseLeave } = useWarpEffect(children);
 
   return (
-    <span 
+    <span
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="inline-flex cursor-default"
+      style={{ display: "inline-flex", cursor: "default" }}
     >
       {children.split("").map((char, i) => {
-        const state = charStates[i];
+        const state = charStates[i] ?? { dx: 0, dy: 0, scale: 1, rotation: 0 };
         return (
           <span
             key={i}
-            ref={(el) => {
-              charRefs.current[i] = el;
-            }}
+            ref={(el) => { charRefs.current[i] = el; }}
             style={{
               display: "inline-block",
               transform: `translate(${state.dx}px, ${state.dy}px) scale(${state.scale}) rotate(${state.rotation}deg)`,
-              transition: "transform 0.1s ease-out",
+              transition: "transform 0.15s cubic-bezier(0.23, 1, 0.32, 1)",
+              willChange: "transform",
             }}
           >
             {char === " " ? "\u00A0" : char}
